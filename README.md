@@ -1,53 +1,62 @@
-# Fliper Igra - Space Pinball
+# Space Pinball: Physics-Driven Engine
 
+[![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![Pygame](https://img.shields.io/badge/Library-Pygame-green.svg)](https://www.pygame.org/)
+[![License-MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+**Space Pinball** je napredna 2D simulacija flipera implementirana u Pythonu. Fokus projekta je na preciznom modeliranju fizike kretanja krutih tela, detekciji kolizija složenih poligona i dinamičkoj vizuelizaciji u realnom vremenu.
 
-Dobrodošli u Space Pinball! Ova igra je razvijena u Pythonu koristeći popularni modul Pygame. Pre nego što započnete, uverite se da imate instaliran Python i Pygame, i da su parametri prilagođeni vašoj rezoluciji.
+---
 
-## Preduslovi
-1. Instalirajte Python (preporučena verzija: 3.11 ili novija)
-2. Instalirajte Pygame: `pip install pygame`
-3. Podesite parametre igre prema svojoj rezoluciji
+## Ključne Karakteristike
+- **Dinamička fizika:** Implementacija kretanja zasnovana na Ojlerovim jednačinama.
+- **Napredna detekcija kolizija:** Korišćenje *Separating Axis Theorem (SAT)* za interakciju sa poligonima.
+- **Vektorska refleksija:** Realistično odbijanje loptice od zakrivljenih i ravnih površina.
+- **Responzivni UI:** Automatsko skaliranje elemenata igre u odnosu na rezoluciju ekrana korisnika.
+- **Svemirska estetika:** Tematski prilagođeni sprite-ovi (planete, zvezde, Yoda hexagon).
 
-## Opis igre
-Space Pinball pruža mehaničko iskustvo 2D flipera s dodatkom svemirskih elemenata. Koristite leve i desne strelice za pomeranje krilaca, a Space taster za ispaljivanje kuglice. Osvojite poene tako što ćete pogoditi različite oblike:
-- **30 poena** za planete
-- **10 poena** za trapezoide
-- **60 poena** za sestouglove
+---
 
-Cilj je sakupiti što više poena i sprečiti kuglicu da padne dole.
+## Tehnička Implementacija
 
-## Mehanika igre
-### Pomeranje Kuglice
-Ojlerove jednačine koriste se za modeliranje rotacije i translacije kuglice. Ovaj matematički pristup omogućava nam precizno praćenje kretanja kuglice u dvodimenzionalnom prostoru.
+### 1. Kinematika i Integracija
+Kretanje loptice se ne oslanja na prosto pomeranje koordinata, već na fizički model:
+- **Ojlerova Metoda:** Koristi se za numeričku integraciju brzine i pozicije u zavisnosti od vremena (`dt`).
+- **Gravitacioni Model:** Sila gravitacije je dekomponovana na vektorske komponente na osnovu nagiba table ($\alpha = 30^\circ$).
+- **Rotacija:** Ugaona brzina ($\omega$) je direktno povezana sa linearnom brzinom i poluprečnikom loptice ($v = \omega \cdot r$).
 
-### Rotacija
-Rotacija loptice zavisi od trenutne translacione brzine i pravca odbijanja od prepreka. Ovo se postiže primenom trigonometrijskih funkcija i vektorskih operacija. Dinamička rotacija doprinosi realističnosti i dinamici igre.
+### 2. Algoritmi Kolizije
+U igri su implementirana tri nivoa detekcije:
+*   **Circle-Circle:** Geometrijska provera rastojanja između centara planeta i loptice.
+*   **Line-Circle:** Projekcija vektora pozicije na normalu linije za precizno odbijanje.
+*   **SAT (Separating Axis Theorem):** Robustan algoritam koji omogućava loptici da detektuje sudare sa konveksnim poligonima (trapezoidi i krilca) proverom preklapanja na svim osama normale.
 
-### Gravitacija
-Gravitaciono ubrzanje zavisi od nagiba table, dok sila gravitacije zavisi od gravitacionog ubrzanja i mase loptice. Ovakav pristup omogućava da gravitacija postane faktor koji utiče na kretanje loptice u igri, stvarajući dodatni izazov.
+### 3. Vektorska Matematika
+Sve interakcije koriste `pygame.math.Vector2` za:
+- Izračunavanje upadnih i odraznih uglova ($R = I - 2(I \cdot n)n$).
+- Normalizaciju vektora smera radi očuvanja impulsa.
 
-### Pomeranje Loptice
-Na početku igre, korisnik zadaje početnu silu koja ispaljuje lopticu uvis. Podešavanje ove sile postavlja ton za čitavu igru, gde precizno doziranje snage utiče na trajanje i visinu kretanja loptice.
+---
 
-### Kolizije
-#### Separating Axis Theorem (SAT)
-Separating Axis Theorem je algoritam za detekciju kolizija između poligona. Korišćenjem SAT-a, možemo precizno odrediti da li se dva objekta presecaju. Ovaj algoritam koristi se za detekciju kolizija sa poligonima u igri.
+## Kontrole i bodovanje
 
-#### Kolizija sa linijom
-Određuje se na osnovu razdaljine pozicije centra loptice od linije. Vektor odbijanja dobija se na osnovu vektora upada, koristeći refleksiju kako bi se simuliralo odbijanje od prepreke.
+| Komanda | Akcija |
+| :--- | :--- |
+| `SPACE` | Lansiranje loptice (inicijalna sila) |
+| `←` / `→` | Upravljanje levim i desnim krilcem (flipperima) |
+| `ESC` | Izlaz iz igre |
 
-#### Kolizija sa krugom
-Implementirana je koristeći geometrijske metode poput udaljenosti između tačaka. Ovo osigurava precizno detektovanje sudara sa krugovima u igri.
+**Sistem poena:**
+- 🪐 **Planete:** 30 pts
+- 🔷 **Trapezoidi:** 10 pts
+- 🌌 **Yoda Hexagon:** 60 pts
 
-## Inspiracija Estetike
-Igra je inspirisana svemirom, koristeći Space elemente za stvaranje jedinstvenog vizuelnog iskustva. Planete, zvezde i kosmički pejzaž dodaju šarm i originalnost fliperu.
+---
 
-🌌 **Spremite se za kosmičko putovanje kroz vasionu flipera!** 🚀
+## Sistemski preduslovi
 
-
-Uživajte u igri i osvojite najviše poena u svemirskom fliperu! 🌠
-
-Autori - Studenti sa smera računarstvo i automatika:
-1) Teodora Bečejac RA37/2021
-2) Nataša Radmilović RA20/2021
+Za uspešno izvršavanje simulacije neophodno je sledeće okruženje:
+- **Runtime:** Python 3.11 ili novija verzija.
+- **Dependencies:** `pygame` biblioteka (zadužena za rendering i event handling).
+- **Zavisnosti operativnog sistema:** `Tkinter` (standardno uz Python na Windowsu, na Linuxu može zahtevati `python3-tk`).
+- **Resursi:** Svi grafički aseti (`.png`) moraju biti u korenom direktorijumu projekta.
