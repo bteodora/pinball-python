@@ -6,6 +6,8 @@
 
 **Space Pinball** je napredna 2D simulacija flipera implementirana u Pythonu. Fokus projekta je na preciznom modeliranju fizike kretanja krutih tela, detekciji kolizija složenih poligona i dinamičkoj vizuelizaciji u realnom vremenu.
 
+> *Aplikacija je razvijena kao univerzitetski projekat, ali je u potpunosti funkcionalna i spremna za upotrebu.*
+
 ---
 
 ## Ključne Karakteristike
