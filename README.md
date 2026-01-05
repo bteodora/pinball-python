@@ -1,10 +1,8 @@
-# Space Pinball: Computational Physics & Kinematics Engine
-
 <div align="center">
   <img src="Untitled.png" alt="Engine Logo" width="300"/>
-  <br><br>
+  <br>
 
-  <h1>Space Pinball Simulation Suite</h1>
+  <h1>Space Pinball: Computational Physics & Kinematics Engine</h1>
   <h3>Discrete-Time Rigid Body Dynamics & SAT Collision System</h3>
 
   <p>
